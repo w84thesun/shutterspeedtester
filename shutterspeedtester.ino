@@ -1,12 +1,6 @@
 #include <Adafruit_SSD1306.h>
 
-// OLED settings
-#define SCREEN_WIDTH 128 // OLED display width, in pixels
-#define SCREEN_HEIGHT 64 // OLED display height, in pixels
-#define OLED_RESET     -1 // Reset pin # (or -1 if sharing Arduino reset pin)
-#define SCREEN_ADDRESS 0x3C ///< See datasheet for Address; 0x3c for 128x64 OLED
-
-Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
+#include "init.h"
 
 // shutter speed tester settings
 #define RECEIVER_PIN A0  // pin to read the light sensor output.
@@ -14,14 +8,7 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 #define THRESHOLD 200  // analogPlusIn() thinks HI, if the light sensor value is higher than this value.
 #define MIN_DURATION 500 // usecs. ignore the duration if it is lower than this value.
 
-#define MILLIS() 1000 // 1 msec.
-
-#define SEC() 1000000 // 1 sec.
-
-#define RESET_DELAY_SECONDS 5_000_000 // delay time between readings.
-
 unsigned long analogPulseIn(uint8_t pin, uint8_t state, unsigned long timeoutInMicros, int threshold = THRESHOLD) {
-
       unsigned long startTime = micros();
 
       // Wait until the previous pulse stops.
@@ -64,14 +51,6 @@ unsigned long analogPulseIn(uint8_t pin, uint8_t state, unsigned long timeoutInM
 }
 
 
-void displayInitialScreen() {
-  display.setTextSize(1);
-  display.setTextColor(WHITE);
-  display.setCursor(0,3);
-
-  display.println("Shutter Speed Tester");
-  display.display();
-}
 
 void displayDuration(unsigned long duration) {
   double msecs = duration / MILLIS();
